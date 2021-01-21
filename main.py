@@ -1,5 +1,8 @@
 import requests
 import json 
+import pyttsx3
+import speech_recognition as sr
+import re
 
 API_KEY = "tpUTwTx6GTH-"
 PROJECT_TOKEN = "tz0yaGzgDusq"
@@ -49,3 +52,23 @@ class Data:
 
 
 data = Data(API_KEY, PROJECT_TOKEN)
+
+def speak(text):
+    engine = pyttsx3.init()
+    engine.say(text)
+    engine.runAndWait()
+
+def get_audio():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        audio = r.listen(source)
+        said = ""
+        
+        try:
+            said = r.recognize_google(audio)
+        except Exception as e: 
+            print("Exception:", str(e))
+    
+    return said.lower()
+
+print(get_audio())
