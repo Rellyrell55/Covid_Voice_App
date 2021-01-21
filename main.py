@@ -7,7 +7,7 @@ RUN_TOKEN = "tYB5B3Dawx_p"
 
 response = requests.get(f'https://www.parsehub.com/api/v2/projects/{PROJECT_TOKEN}/last_ready_run/data', params={"api_key": API_KEY})
 data = json.loads(response.text)
-print(data["total"])
+# print(data["total"])
 
 class Data: 
     def __init__(self, api_key, project_token):
@@ -21,6 +21,21 @@ class Data:
     def get_data(self):
         response = requests.get(f'https://www.parsehub.com/api/v2/projects/{PROJECT_TOKEN}/last_ready_run/data', params={"api_key": API_KEY})
         self.data = json.loads(response.text)
+    
+    def get_total_cases(self):
+        data = self.data['total']
         
+        for content in data:
+            if content['name'] == 'Coronavirus Cases:':
+                return content['value']
+        
+    def get_total_deaths(self):
+        data = self.data['total']
+        
+        for content in data:
+            if content['name'] == 'Deaths:':
+                return content['value']
+    
+
 data = Data(API_KEY, PROJECT_TOKEN)
-print(data.data)
+print(data.get_total_deaths())
