@@ -35,7 +35,17 @@ class Data:
         for content in data:
             if content['name'] == 'Deaths:':
                 return content['value']
-    
+            
+        return "0"
+
+    def get_country_data(self, country):
+        data = self.data['country']
+        
+        for content in data:
+            if content['name'].lower() == country.lower():
+                return content
+            
+        return "0"
+
 
 data = Data(API_KEY, PROJECT_TOKEN)
-print(data.get_total_deaths())
